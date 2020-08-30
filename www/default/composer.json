@@ -1,0 +1,12 @@
+{
+  "require": {
+    "php": ">=7.3",
+    "symfony/validator": "^5.0",
+    "guzzlehttp/guzzle": "^7.0"
+  },
+  "autoload": {
+    "classmap": [
+      "src/"
+    ]
+  }
+}
