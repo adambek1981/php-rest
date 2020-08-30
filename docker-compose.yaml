@@ -1,0 +1,43 @@
+version: '3.8'
+services:
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./hosts:/etc/nginx/conf.d
+      - ./www:/var/www
+      - ./logs:/var/log/nginx
+    links:
+      - php
+    networks:
+      - app-network
+
+  php:
+    build: ./images/php
+    volumes:
+      - ./www:/var/www
+    links:
+      - mysql
+    networks:
+      - app-network
+
+  mysql:
+    image: mysql:5
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: app
+      MYSQL_ROOT_PASSWORD: root
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
